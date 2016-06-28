@@ -1,5 +1,7 @@
 <?php
 
+ob_implicit_flush();
+
 $shell_instruction = 'cd ..; /srv/http2-demo/downloadSite ';
 $shell_instruction .= escapeshellarg($_GET['url']);
 
