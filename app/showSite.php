@@ -25,19 +25,26 @@
         <div class="column">
             <h2 class="ui image">http2-demo</h2>
             <h3 class="ui">Compare HTTP 1.1, HTTP/2 and HTTP/2 + PUSH</h3>
-            <form class="ui large form" action="/downloadSite.php" method="get">
-                <div class="ui stacked segment">
-                    <div class="field">
-                        <label>Try a web page</label>
-                        <div class="ui big input">
-                            <input type="text" name="url" placeholder="google.com">
+            <div class="ui stacked segment">
+                <h4 class="ui">Site <?php echo htmlspecialchars($GET_['siteName']); ?></h4>
+                <div class="ui list">
+                    <div class="item">
+                        <div class="content">
+                            <a href="<?php echo htmlspecialchars('https://fraudit.tic.heia-fr.ch:8081/'.$GET_['siteName']);>">HTTP 1.1</a>
                         </div>
                     </div>
-                    <div class="field">
-                        <button type="submit" class="ui fluid button huge">Compare</button>
+                    <div class="item">
+                        <div class="content">
+                            <a href="<?php echo htmlspecialchars('https://fraudit.tic.heia-fr.ch:8082/'.$GET_['siteName']);>">HTTP 2</a>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <div class="content">
+                            <a href="<?php echo htmlspecialchars('https://fraudit.tic.heia-fr.ch:8083/'.$GET_['siteName']);>">HTTP 2 + push</a>
+                        </div>
                     </div>
                 </div>
-            </form>
+            </div>
         </div>
     </div>
 </div>
