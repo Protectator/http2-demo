@@ -49,9 +49,8 @@
                 $status = pclose($proc);
                 if ($status == 0) {
                     echo "Download complete. Redirecting you...";
-                    echo "<script type="text/javascript">
-                          window.location = "https://fraudit.tic.heia-fr.ch/showSite.php?siteName=<?php echo htmlspecialchars($_GET['url']);?>"
-                          </script>";
+                    $script = "<script type='text/javascript'> window.location = 'https://fraudit.tic.heia-fr.ch/showSite.php?siteName=".htmlspecialchars($_GET['url']). "';</script>";
+                    echo $script;
                 } else {
                     echo "Download failed : " + $status;
                 }
