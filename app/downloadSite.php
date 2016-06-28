@@ -26,7 +26,8 @@
             <h2 class="ui image">http2-demo</h2>
             <h3 class="ui">Compare HTTP 1.1, HTTP/2 and HTTP/2 + PUSH</h3>
             <div class="ui stacked segment left aligned" id="dlContent">
-                Download of <?php echo htmlspecialchars($_GET['url']); ?> in progress... You'll be redirected once it has ended.
+                <p>Download of <?php echo htmlspecialchars($_GET['url']); ?> in progress... You'll be redirected once it has ended.</p>
+                <p>If the page has finished loading but you are still here, click <a href="https://fraudit.tic.heia-fr.ch/showSite.php?siteName=<?php echo htmlspecialchars($_GET['url']); ?>">here</a>.
                 <pre id="feedback">
                 </pre>
             </div>
@@ -52,12 +53,12 @@ while (@ ob_end_flush()); // end all output buffers if any
 $proc = popen($shell_instruction, 'r');
 while (!feof($proc))
 {
-    // echo fread($proc, 4096);
+    fread($proc, 4096);
     @ flush();
 }
 $status = pclose($proc);
 if ($status == 0) {
-    $script = "<script type='text/javascript'> window.location = 'https://fraudit.tic.heia-fr.ch/showSite.php?siteName=".htmlspecialchars($_GET['url']). "';</script>";
+    $script = "<script type='text/javascript'> window.location.replace('https://fraudit.tic.heia-fr.ch/showSite.php?siteName=".htmlspecialchars($_GET['url']). "');</script>";
     echo $script;
 } else {
     echo "<script>feedback.innerHTML = 'Download failed : ";
