@@ -26,7 +26,7 @@
             <h2 class="ui image">http2-demo</h2>
             <h3 class="ui">Compare HTTP 1.1, HTTP/2 and HTTP/2 + PUSH</h3>
             <div class="ui stacked segment left aligned" id="dlContent">
-                Download of <?php echo htmlspecialchars($_GET('url')); ?> in progress... You'll be redirected once it has ended.
+                Download of <?php echo htmlspecialchars($_GET['url']); ?> in progress... You'll be redirected once it has ended.
                 <pre id="feedback">
                 </pre>
             </div>
@@ -47,8 +47,6 @@ ob_implicit_flush();
 
 $shell_instruction = 'cd ..; /srv/http2-demo/downloadSite ';
 $shell_instruction .= escapeshellarg($_GET['url']);
-
-echo "Starting transfer...</br>Output :";
 
 while (@ ob_end_flush()); // end all output buffers if any
 $proc = popen($shell_instruction, 'r');
