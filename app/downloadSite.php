@@ -25,36 +25,10 @@
         <div class="column">
             <h2 class="ui image">http2-demo</h2>
             <h3 class="ui">Compare HTTP 1.1, HTTP/2 and HTTP/2 + PUSH</h3>
-            <div class="ui stacked segment left aligned">
-                <?php
-
-                ob_implicit_flush();
-
-                $shell_instruction = 'cd ..; /srv/http2-demo/downloadSite ';
-                $shell_instruction .= escapeshellarg($_GET['url']);
-
-                echo "Command : <pre>".$shell_instruction."</pre>";
-
-                echo "Starting transfer...</br>Output :";
-
-                while (@ ob_end_flush()); // end all output buffers if any
-                $proc = popen($shell_instruction, 'r');
-                echo '<pre>';
-                while (!feof($proc))
-                {
-                    echo fread($proc, 4096);
-                    @ flush();
-                }
-                echo '</pre>';
-                $status = pclose($proc);
-                if ($status == 0) {
-                    echo "Download complete. Redirecting you...";
-                    $script = "<script type='text/javascript'> window.location = 'https://fraudit.tic.heia-fr.ch/showSite.php?siteName=".htmlspecialchars($_GET['url']). "';</script>";
-                    echo $script;
-                } else {
-                    echo "Download failed : " + $status;
-                }
-                ?>
+            <div class="ui stacked segment left aligned" id="dlContent">
+                Download of <?php echo htmlspecialchars($_GET('url')); ?> in progress... You'll be redirected once it has ended.
+                <pre id="feedback">
+                </pre>
             </div>
         </div>
     </div>
@@ -67,5 +41,31 @@
     </div>
 </div>
 <div class="after-footer"></div>
+<?php
+
+ob_implicit_flush();
+
+$shell_instruction = 'cd ..; /srv/http2-demo/downloadSite ';
+$shell_instruction .= escapeshellarg($_GET['url']);
+
+echo "Starting transfer...</br>Output :";
+
+while (@ ob_end_flush()); // end all output buffers if any
+$proc = popen($shell_instruction, 'r');
+while (!feof($proc))
+{
+    // echo fread($proc, 4096);
+    @ flush();
+}
+$status = pclose($proc);
+if ($status == 0) {
+    $script = "<script type='text/javascript'> window.location = 'https://fraudit.tic.heia-fr.ch/showSite.php?siteName=".htmlspecialchars($_GET['url']). "';</script>";
+    echo $script;
+} else {
+    echo "<script>feedback.innerHTML = 'Download failed : ";
+    echo $status;
+    echo "';</script>";
+}
+?>
 </body>
 </html>
