@@ -10,42 +10,42 @@ wget --no-clobber --page-requisites --adjust-extension --convert-links --restric
 cp -R ./1/$1/* "./2/$1/"
 cp -R ./1/$1/* "./2push/$1/"
 echo '<Files "index.html">' > "./2push/$1/.htaccess"
-ls -1 --color=never --ignore="index.html" | while read line; do
-    echo "    Header add Link '</$line>;rel=preload;as=";
+ls -1 --color=never --ignore="index.html" "./2push/$1/" | while read line; do
+    echo -n "    Header add Link '</$1/$line>;rel=preload;as=";
     filename=$(basename "$line");
     ext=${filename##*.};
     case "$ext" in # According to https://w3c.github.io/preload/#attributes
         "aac" | "aiff" | "flac" | "m4a" | "mp3" | "ogg" | "wav" | "wma") # Audio formats
-            echo "media"
+            echo -n "media"
         ;;
         "3gp" | "amv" | "avi" | "flv" | "gifv" | "m4v" | "mkv" | "mov" | "mp4" | "mpg" | "mpeg" | "ogv" | "vob" | "webm" | "wmv") # Video formats
-            echo "media"
+            echo -n "media"
         ;;
         "js")
-            echo "script"
+            echo -n "script"
         ;;
         "css")
-            echo "style"
+            echo -n "style"
         ;;
         "ttf" | "woff" | "abf" | "dfont" | "sfd" | "fnt" | "mf" | "otf" | "pfb")
-            echo "font"
+            echo -n "font"
         ;;
         "png" | "jpeg" | "jpg" | "dds" | "tiff" | "bmp" | "tif" | "thumb" | "gif" | "tga" | "jpe" | "jfif")
-            echo "image"
+            echo -n "image"
         ;;
         "vsdx" | "svg")
-            echo "image"
+            echo -n "image"
         ;;
         "swf")
-            echo "embed"
+            echo -n "embed"
         ;;
         "html" | "htm" | "xhtml" | "php")
-            echo "document"
+            echo -n "document"
         ;;
         *) # Default behaviour
-        echo "object"
+        echo -n "object"
         ;;
     esac
-    printf "'\n";
-done >> .htaccess
+    echo "'";
+done >> "./2push/$1/.htaccess"
 echo '</Files>' >> "./2push/$1/.htaccess"
