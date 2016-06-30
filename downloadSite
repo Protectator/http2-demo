@@ -9,3 +9,43 @@ wget --no-clobber --page-requisites --adjust-extension --convert-links --restric
 #mv "./http1/$1/index-temp.html" "./http1/$1/index.html"
 cp -R ./1/$1/* "./2/$1/"
 cp -R ./1/$1/* "./2push/$1/"
+echo '<Files "index.html">' > "./2push/$1/.htaccess"
+ls -1 --color=never --ignore="index.html" | while read line; do
+    echo "    Header add Link '</$line>;rel=preload;as=";
+    filename=$(basename "$line");
+    ext=${filename##*.};
+    case "$ext" in # According to https://w3c.github.io/preload/#attributes
+        "aac" | "aiff" | "flac" | "m4a" | "mp3" | "ogg" | "wav" | "wma") # Audio formats
+            echo "media"
+        ;;
+        "3gp" | "amv" | "avi" | "flv" | "gifv" | "m4v" | "mkv" | "mov" | "mp4" | "mpg" | "mpeg" | "ogv" | "vob" | "webm" | "wmv") # Video formats
+            echo "media"
+        ;;
+        "js")
+            echo "script"
+        ;;
+        "css")
+            echo "style"
+        ;;
+        "ttf" | "woff" | "abf" | "dfont" | "sfd" | "fnt" | "mf" | "otf" | "pfb")
+            echo "font"
+        ;;
+        "png" | "jpeg" | "jpg" | "dds" | "tiff" | "bmp" | "tif" | "thumb" | "gif" | "tga" | "jpe" | "jfif")
+            echo "image"
+        ;;
+        "vsdx" | "svg")
+            echo "image"
+        ;;
+        "swf")
+            echo "embed"
+        ;;
+        "html" | "htm" | "xhtml" | "php")
+            echo "document"
+        ;;
+        *) # Default behaviour
+        echo "object"
+        ;;
+    esac
+    printf "'\n";
+done >> .htaccess
+echo '</Files>' >> "./2push/$1/.htaccess"
