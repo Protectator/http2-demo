@@ -11,6 +11,9 @@ cp -R ./1/$1/* "./2/$1/"
 cp -R ./1/$1/* "./2push/$1/"
 echo '<Files "index.html">' > "./2push/$1/.htaccess"
 ls -1 --color=never --ignore="index.html" "./2push/$1/" | while read line; do
+    echo '    Header always set Access-Control-Allow-Origin "*"';
+    echo '    Header always set Access-Control-Allow-Methods "GET, OPTIONS"';
+    echo "    Header set X-Frame-Options SAMEORIGIN";
     echo -n "    Header add Link '</$1/$line>;rel=preload;as=";
     filename=$(basename "$line");
     ext=${filename##*.};
