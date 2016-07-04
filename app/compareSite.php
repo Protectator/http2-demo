@@ -50,14 +50,15 @@
 <script>
     $(document).ready(function() {
         console.log("Initializing iframes");
-        var h1 = $('#h1')[0];
-        var h2 = $('#h2')[0];
-        var h2push = $('#h2push')[0];
-        h1.setAttribute("src", "<?php echo htmlspecialchars('https://fraudit.tic.heia-fr.ch:8081/'.$_GET['siteName']); ?>");
+        var h1 = $('#h1');
+        var h2 = $('#h2');
+        var h2push = $('#h2push');
+        h1[0].setAttribute("src", "<?php echo htmlspecialchars('https://fraudit.tic.heia-fr.ch:8081/'.$_GET['siteName']); ?>");
         h1.load(function(){
-            h2.setAttribute("src", "<?php echo htmlspecialchars('https://fraudit.tic.heia-fr.ch:8082/'.$_GET['siteName']); ?>");
+            console.log();
+            h2[0].setAttribute("src", "<?php echo htmlspecialchars('https://fraudit.tic.heia-fr.ch:8082/'.$_GET['siteName']); ?>");
             h2.load(function(){
-                h2push.setAttribute("src", "<?php echo htmlspecialchars('https://fraudit.tic.heia-fr.ch:8083/'.$_GET['siteName']); ?>");
+                h2push[0].setAttribute("src", "<?php echo htmlspecialchars('https://fraudit.tic.heia-fr.ch:8083/'.$_GET['siteName']); ?>");
                 h2push.load(function(){
                     console.log("Loading finished");
                 });
