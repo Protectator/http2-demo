@@ -148,15 +148,15 @@
         var h2push = $('#h2push');
         h1[0].setAttribute("src", "<?php echo htmlspecialchars('https://fraudit.tic.heia-fr.ch:8081/'.$_GET['siteName']); ?>");
         h1.load(function(){
-            h1.parentNode.innerHTML = "Test complete";
+            h1[0].parentNode.innerHTML = "Test complete";
             setTimeout(function(){
                 h2[0].setAttribute("src", "<?php echo htmlspecialchars('https://fraudit.tic.heia-fr.ch:8082/'.$_GET['siteName']); ?>");
                 h2.load(function(){
-                    h2.parentNode.innerHTML = "Test complete";
+                    h2[0].parentNode.innerHTML = "Test complete";
                     setTimeout(function() {
                         h2push[0].setAttribute("src", "<?php echo htmlspecialchars('https://fraudit.tic.heia-fr.ch:8083/'.$_GET['siteName']); ?>");
                         h2push.load(function(){
-                            h2push.parentNode.innerHTML = "Test complete";
+                            h2push[0].parentNode.innerHTML = "Test complete";
                             console.log("Loading finished");
                         });
                     }, 1000);
