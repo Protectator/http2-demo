@@ -28,7 +28,7 @@
             <h3 class="ui">Compare HTTP 1.1, HTTP/2 and HTTP/2 + PUSH</h3>
             <div class="ui stacked segment">
                 <h4 class="ui">Site <?php echo htmlspecialchars($_GET['siteName']); ?></h4>
-                <table class="ui celled striped table">
+                <table class="ui celled striped definition table">
                     <thead>
                     <tr>
                         <th>Protocol</th>
@@ -36,7 +36,7 @@
                         <th><a href="<?php echo htmlspecialchars('https://fraudit.tic.heia-fr.ch:8082/'.$_GET['siteName']); ?>" target="_blank">HTTP 2</a></th>
                         <th><a href="<?php echo htmlspecialchars('https://fraudit.tic.heia-fr.ch:8083/'.$_GET['siteName']); ?>" target="_blank">HTTP 2 + PUSH</a></th>
                     </tr>
-                    </thead><tbody>
+                    </thead><tfoot>
                     <tr>
                         <td style="width:10%">View</td>
                         <td style="width:30%"><iframe id="h1" style="width:100%; height:500px;">Loading...</iframe></td>
@@ -50,18 +50,26 @@
                         "TCP time" => "timing['requestStart'] - timing['domainLookupEnd']",
                         "Request time" => "timing['responseStart'] - timing['requestStart']",
                         "Response time" => "timing['responseEnd'] - timing['responseStart']",
-                        "DOM Processing" => "timing['domComplete'] - timing['domLoading']",
-                        "onLoad events" => "timing['loadEventEnd'] - timing['loadEventStart']",
-                        "Total time" => "timing['domContentLoadedEventEnd'] - timing['navigationStart']",
+                        "DOM Processing time" => "timing['domComplete'] - timing['domLoading']",
+                        "Time to responseEnd" => "timing['responseEnd'] - timing['navigationStart']",
+                        "Time to domContentLoaded" => "timing['domContentLoaded'] - timing['navigationStart']",
+                        "Time to domComplete" => "timing['domComplete'] - timing['navigationStart']",
                     );
 
                     $id = 0;
                     foreach ($stats as $key => $value) {
-                        echo "<tr><td>".$key."</td><td id='stat-h1-".$id."'></td><td id='stat-h2-".$id."'></td><td id='stat-h2push-".$id."'></td></tr>";
+                        if ($id == 5) {
+                            echo "</tbody><tfoot>";
+                        }
+                        if ($id <= 5) {
+                            echo "<tr><td>".$key."</td><td id='stat-h1-".$id."'></td><td id='stat-h2-".$id."'></td><td id='stat-h2push-".$id."'></td></tr>";
+                        } else {
+                            echo "<tr><th>".$key."</th><th id='stat-h1-".$id."'></th><th id='stat-h2-".$id."'></th><th id='stat-h2push-".$id."'></th></tr>";
+                        }
                         $id++;
                     }
                     ?>
-                    </tbody>
+                    </tfoot>
                 </table>
             </div>
         </div>
@@ -90,8 +98,9 @@
             var stat3 = timing['responseStart'] - timing['requestStart'];
             var stat4 = timing['responseEnd'] - timing['responseStart'];
             var stat5 = timing['domComplete'] - timing['domLoading'];
-            var stat6 = timing['loadEventEnd'] - timing['loadEventStart'];
-            var stat7 = timing['domContentLoadedEventEnd'] - timing['navigationStart'];
+            var stat6 = timing['responseEnd'] - timing['navigationStart'];
+            var stat7 = timing['domContentLoaded'] - timing['navigationStart'];
+            var stat8 = timing['domComplete'] - timing['navigationStart'];
             console.log("Message recieved ! : " + e.origin + " : " + e.data);
             switch(e.origin) {
                 case origins[0]:
@@ -103,6 +112,7 @@
                     $('#stat-h1-5').html(stat5 + "ms");
                     $('#stat-h1-6').html(stat6 + "ms");
                     $('#stat-h1-7').html(stat7 + "ms");
+                    $('#stat-h1-8').html(stat8 + "ms");
                     break;
                 case origins[1]:
                     $('#stat-h2-0').html(stat0 + "ms");
@@ -113,6 +123,7 @@
                     $('#stat-h2-5').html(stat5 + "ms");
                     $('#stat-h2-6').html(stat6 + "ms");
                     $('#stat-h2-7').html(stat7 + "ms");
+                    $('#stat-h2-8').html(stat8 + "ms");
                     break;
                 case origins[2]:
                     $('#stat-h2push-0').html(stat0 + "ms");
@@ -123,6 +134,7 @@
                     $('#stat-h2push-5').html(stat5 + "ms");
                     $('#stat-h2push-6').html(stat6 + "ms");
                     $('#stat-h2push-7').html(stat7 + "ms");
+                    $('#stat-h2push-8').html(stat8 + "ms");
                     break;
                 default:
                     console.log(e.origin + " : " + e.data);
@@ -136,10 +148,10 @@
         var h2push = $('#h2push');
         h1[0].setAttribute("src", "<?php echo htmlspecialchars('https://fraudit.tic.heia-fr.ch:8081/'.$_GET['siteName']); ?>");
         h1.load(function(){
-            setInterval(function(){
+            setTimeout(function(){
                 h2[0].setAttribute("src", "<?php echo htmlspecialchars('https://fraudit.tic.heia-fr.ch:8082/'.$_GET['siteName']); ?>");
                 h2.load(function(){
-                    setInterval(function() {
+                    setTimeout(function() {
                         h2push[0].setAttribute("src", "<?php echo htmlspecialchars('https://fraudit.tic.heia-fr.ch:8083/'.$_GET['siteName']); ?>");
                         h2push.load(function(){
                             console.log("Loading finished");
