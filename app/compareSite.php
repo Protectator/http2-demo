@@ -32,9 +32,9 @@
                     <tr><th>Stat</th><th>HTTP 1.1</th><th>HTTP/2</th><th>HTTP/2 + PUSH</th></tr>
                     <tr>
                         <td>View</td>
-                        <td><iframe id="h1">HTTP 1.1</iframe></td>
-                        <td><iframe id="h2">HTTP 2</iframe></td>
-                        <td><iframe id="h2push">HTTP 2 + push</iframe></td>
+                        <td><iframe id="h1" style="width:100%;">HTTP 1.1</iframe></td>
+                        <td><iframe id="h2" style="width:100%;">HTTP 2</iframe></td>
+                        <td><iframe id="h2push" style="width:100%;">HTTP 2 + push</iframe></td>
                     </tr>
                     <tr>
                         <td>Stats</td>
@@ -58,6 +58,24 @@
 <div class="after-footer"></div>
 </body>
 <script>
+    window.addEventListener("message",
+        function (e) {
+            console.log("Message recieved !");
+            switch(e.origin) {
+                case origins[0]:
+                    $('#statsh1').innerHTML = e.data;
+                    break;
+                case origins[1]:
+                    $('#statsh2').innerHTML = e.data;
+                    break;
+                case origins[2]:
+                    $('#statsh2push').innerHTML = e.data;
+                    break;
+                default:
+                    console.log(e.origin + " : " + e.data);
+            }
+        },
+        false);
     $(document).ready(function() {
         console.log("Initializing iframes");
         var h1 = $('#h1');
@@ -78,22 +96,5 @@
     var origins = ["https://fraudit.tic.heia-fr.ch:8081",
         "https://fraudit.tic.heia-fr.ch:8082",
         "https://fraudit.tic.heia-fr.ch:8083"];
-    window.addEventListener("message",
-        function (e) {
-            switch(e.origin) {
-                case origins[0]:
-                    $('#statsh1').innerHTML = e.data;
-                    break;
-                case origins[1]:
-                    $('#statsh2').innerHTML = e.data;
-                    break;
-                case origins[2]:
-                    $('#statsh2push').innerHTML = e.data;
-                    break;
-                default:
-                    console.log(e.origin + " : " + e.data);
-            }
-        },
-        false);
 </script>
 </html>
