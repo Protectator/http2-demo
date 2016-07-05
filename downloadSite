@@ -10,11 +10,8 @@ echo 'Header always set Access-Control-Allow-Origin "*"' >> "./1/$1/.htaccess"
 echo 'Header always set Access-Control-Allow-Methods "GET, OPTIONS"' >> "./1/$1/.htaccess"
 
 # Sending postMessage to top frame
-sed -i '' '/<\/html>/i\
-<script>\
-    top.postMessage(JSON.stringify(window.performance.timing), "*");\
-<\/script>\
-' index.html
+sed -i '$s_<\/html>_ _' "./1/$1/index.html"
+echo '<script>top.postMessage(JSON.stringify(window.performance.timing), "*");</script></html>' >> "./1/$1/index.html"
 
 # Copying files to HTTP/2 and HTTP/2+PUSH folders
 cp -R ./1/$1/* "./2/$1/"
