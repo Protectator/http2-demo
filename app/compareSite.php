@@ -29,12 +29,15 @@
             <div class="ui stacked segment">
                 <h4 class="ui">Site <?php echo htmlspecialchars($_GET['siteName']); ?></h4>
                 <table>
-                    <tr><th>Protocol</th><th>HTTP 1.1</th><th>HTTP/2</th><th>HTTP/2 + PUSH</th></tr>
+                    <tr><th>Protocol</th>
+<th><a href="<?php echo htmlspecialchars('https://fraudit.tic.heia-fr.ch:8081/'.$_GET['siteName']); ?>" target="_blank">HTTP 1.1</a></th>
+<th><a href="<?php echo htmlspecialchars('https://fraudit.tic.heia-fr.ch:8082/'.$_GET['siteName']); ?>" target="_blank">HTTP 2</a></th>
+<th><a href="<?php echo htmlspecialchars('https://fraudit.tic.heia-fr.ch:8083/'.$_GET['siteName']); ?>" target="_blank">HTTP 2 + PUSH</a></th></tr>
                     <tr>
                         <td>View</td>
-                        <td><iframe id="h1" style="width:100%;"><a href="<?php echo htmlspecialchars('https://fraudit.tic.heia-fr.ch:8081/'.$_GET['siteName']); ?>" target="_blank">HTTP 1.1</a></iframe></td>
-                        <td><iframe id="h2" style="width:100%;"><a href="<?php echo htmlspecialchars('https://fraudit.tic.heia-fr.ch:8082/'.$_GET['siteName']); ?>" target="_blank">HTTP 2</a></iframe></td>
-                        <td><iframe id="h2push" style="width:100%;"><a href="<?php echo htmlspecialchars('https://fraudit.tic.heia-fr.ch:8083/'.$_GET['siteName']); ?>" target="_blank">HTTP 2+PUSH</a></iframe></td>
+                        <td><iframe id="h1" style="width:100%;">Loading...</iframe></td>
+                        <td><iframe id="h2" style="width:100%;">Loading...</iframe></td>
+                        <td><iframe id="h2push" style="width:100%;">Loading...</iframe></td>
                     </tr>
                     <tr>
                         <td>Stats</td>
