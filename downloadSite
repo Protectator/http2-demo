@@ -39,7 +39,7 @@ ls -1 --color=never --ignore="index.html" "./2push/$1/" | while read line; do
         "ttf" | "woff" | "abf" | "dfont" | "sfd" | "fnt" | "mf" | "otf" | "pfb")
             echo -n "font"
         ;;
-        "png" | "jpeg" | "jpg" | "dds" | "tiff" | "bmp" | "tif" | "thumb" | "gif" | "tga" | "jpe" | "jfif")
+        "png" | "jpeg" | "jpg" | "dds" | "tiff" | "bmp" | "tif" | "thumb" | "gif" | "tga" | "jpe" | "jfif" | "ico")
             echo -n "image"
         ;;
         "vsdx" | "svg")
@@ -52,7 +52,7 @@ ls -1 --color=never --ignore="index.html" "./2push/$1/" | while read line; do
             echo -n "document"
         ;;
         *) # Default behaviour
-        echo -n "object"
+        echo -n "image" # It turns out most unrecognized formats are images
         ;;
     esac
     echo "'";

@@ -21,7 +21,7 @@
         <a href="/" class="item">Home</a>
     </div>
 </div>
-<div class="ui main text container" style="margin-top: 1.5em;" id="stickContext">
+<div class="ui main text" style="margin-top: 1.5em;" id="stickContext">
     <div class="ui middle aligned center aligned grid">
         <div class="column">
             <h2 class="ui image">http2-demo</h2>
@@ -29,12 +29,12 @@
             <div class="ui stacked segment">
                 <h4 class="ui">Site <?php echo htmlspecialchars($_GET['siteName']); ?></h4>
                 <table>
-                    <tr><th>Stat</th><th>HTTP 1.1</th><th>HTTP/2</th><th>HTTP/2 + PUSH</th></tr>
+                    <tr><th>Protocol</th><th>HTTP 1.1</th><th>HTTP/2</th><th>HTTP/2 + PUSH</th></tr>
                     <tr>
                         <td>View</td>
-                        <td><iframe id="h1" style="width:100%;">HTTP 1.1</iframe></td>
-                        <td><iframe id="h2" style="width:100%;">HTTP 2</iframe></td>
-                        <td><iframe id="h2push" style="width:100%;">HTTP 2 + push</iframe></td>
+                        <td><iframe id="h1" style="width:100%;"><a href="<?php echo htmlspecialchars('https://fraudit.tic.heia-fr.ch:8081/'.$_GET['siteName']); ?>" target="_blank">HTTP 1.1</a></iframe></td>
+                        <td><iframe id="h2" style="width:100%;"><a href="<?php echo htmlspecialchars('https://fraudit.tic.heia-fr.ch:8082/'.$_GET['siteName']); ?>" target="_blank">HTTP 2</a></iframe></td>
+                        <td><iframe id="h2push" style="width:100%;"><a href="<?php echo htmlspecialchars('https://fraudit.tic.heia-fr.ch:8083/'.$_GET['siteName']); ?>" target="_blank">HTTP 2+PUSH</a></iframe></td>
                     </tr>
                     <tr>
                         <td>Stats</td>
