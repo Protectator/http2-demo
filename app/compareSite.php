@@ -29,12 +29,12 @@
             <div class="ui stacked segment">
                 <h4 class="ui">Site <?php echo htmlspecialchars($_GET['siteName']); ?></h4>
                 <table>
-                    <thead><td>Stat</td><td>HTTP 1.1</td><td>HTTP/2</td><td>HTTP/2 + PUSH</td></thead>
+                    <tr><th>Stat</th><th>HTTP 1.1</th><th>HTTP/2</th><th>HTTP/2 + PUSH</th></tr>
                     <tr>
                         <td>View</td>
-                        <td><iframe id="h1" style="width: 32%">HTTP 1.1</iframe></td>
-                        <td><iframe id="h2" style="width: 32%">HTTP 2</iframe></td>
-                        <td><iframe id="h2push" style="width: 32%">HTTP 2 + push</iframe></td>
+                        <td><iframe id="h1">HTTP 1.1</iframe></td>
+                        <td><iframe id="h2">HTTP 2</iframe></td>
+                        <td><iframe id="h2push">HTTP 2 + push</iframe></td>
                     </tr>
                     <tr>
                         <td>Stats</td>
@@ -78,7 +78,6 @@
     var origins = ["https://fraudit.tic.heia-fr.ch:8081",
         "https://fraudit.tic.heia-fr.ch:8082",
         "https://fraudit.tic.heia-fr.ch:8083"];
-    switch
     window.addEventListener("message",
         function (e) {
             switch(e.origin) {
@@ -91,6 +90,8 @@
                 case origins[2]:
                     $('#statsh2push').innerHTML = e.data;
                     break;
+                default:
+                    console.log(e.origin + " : " + e.data);
             }
         },
         false);
