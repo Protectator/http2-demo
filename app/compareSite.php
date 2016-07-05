@@ -30,21 +30,33 @@
                 <h4 class="ui">Site <?php echo htmlspecialchars($_GET['siteName']); ?></h4>
                 <table>
                     <tr><th>Protocol</th>
-<th><a href="<?php echo htmlspecialchars('https://fraudit.tic.heia-fr.ch:8081/'.$_GET['siteName']); ?>" target="_blank">HTTP 1.1</a></th>
-<th><a href="<?php echo htmlspecialchars('https://fraudit.tic.heia-fr.ch:8082/'.$_GET['siteName']); ?>" target="_blank">HTTP 2</a></th>
-<th><a href="<?php echo htmlspecialchars('https://fraudit.tic.heia-fr.ch:8083/'.$_GET['siteName']); ?>" target="_blank">HTTP 2 + PUSH</a></th></tr>
+                        <th><a href="<?php echo htmlspecialchars('https://fraudit.tic.heia-fr.ch:8081/'.$_GET['siteName']); ?>" target="_blank">HTTP 1.1</a></th>
+                        <th><a href="<?php echo htmlspecialchars('https://fraudit.tic.heia-fr.ch:8082/'.$_GET['siteName']); ?>" target="_blank">HTTP 2</a></th>
+                        <th><a href="<?php echo htmlspecialchars('https://fraudit.tic.heia-fr.ch:8083/'.$_GET['siteName']); ?>" target="_blank">HTTP 2 + PUSH</a></th></tr>
                     <tr>
                         <td>View</td>
                         <td><iframe id="h1" style="width:100%;">Loading...</iframe></td>
                         <td><iframe id="h2" style="width:100%;">Loading...</iframe></td>
                         <td><iframe id="h2push" style="width:100%;">Loading...</iframe></td>
                     </tr>
-                    <tr>
-                        <td>Stats</td>
-                        <td id="statsh1"></td>
-                        <td id="statsh2"></td>
-                        <td id="statsh2push"></td>
-                    </tr>
+                    <?php
+                    $stats = array(
+                        "Redirect time" => "timing['redirectEnd'] - timing['navigationStart']",
+                        "DNS time" => "timing['domainLookupEnd'] - timing['redirectEnd']",
+                        "TCP time" => "timing['requestStart'] - timing['domainLookupEnd']",
+                        "Request time" => "timing['responseStart'] - timing['requestStart']",
+                        "Response time" => "timing['responseEnd'] - timing['responseStart']",
+                        "DOM Processing" => "timing['domComplete'] - timing['domLoading']",
+                        "onLoad events" => "timing['loadEventEnd'] - timing['loadEventStart']",
+                        "Total time" => "timing['domContentLoadedEventEnd'] - timing['navigationStart']",
+                    );
+
+                    $id = 0;
+                    foreach ($stats as $key => $value) {
+                        echo "<tr><td>".$key."</td><td id='stat-h1-".$id."'></td><td id='stat-h2-".$id."'></td><td id='stat-h2push-".$id."'></td></tr>";
+                        $id++;
+                    }
+                    ?>
 
                 </table>
             </div>
@@ -68,17 +80,45 @@
     window.addEventListener("message",
         function (e) {
             var timing = JSON.parse(e.data);
-            var totalTime = timing['domContentLoadedEventEnd'] - timing['navigationStart'];
+            var stat0 = timing['redirectEnd'] - timing['navigationStart'];
+            var stat1 = timing['domainLookupEnd'] - timing['redirectEnd'];
+            var stat2 = timing['requestStart'] - timing['domainLookupEnd'];
+            var stat3 = timing['responseStart'] - timing['requestStart'];
+            var stat4 = timing['responseEnd'] - timing['responseStart'];
+            var stat5 = timing['domComplete'] - timing['domLoading'];
+            var stat6 = timing['loadEventEnd'] - timing['loadEventStart'];
+            var stat7 = timing['domContentLoadedEventEnd'] - timing['navigationStart'];
             console.log("Message recieved ! : " + e.origin + " : " + e.data);
             switch(e.origin) {
                 case origins[0]:
-                    $('#statsh1').html("Total time : " + totalTime);
+                    $('#stat-h1-0').html(stat0 + "ms");
+                    $('#stat-h1-1').html(stat1 + "ms");
+                    $('#stat-h1-2').html(stat2 + "ms");
+                    $('#stat-h1-3').html(stat3 + "ms");
+                    $('#stat-h1-4').html(stat4 + "ms");
+                    $('#stat-h1-5').html(stat5 + "ms");
+                    $('#stat-h1-6').html(stat6 + "ms");
+                    $('#stat-h1-7').html(stat7 + "ms");
                     break;
                 case origins[1]:
-                    $('#statsh2').html("Total time : " + totalTime);
+                    $('#stat-h2-0').html(stat0 + "ms");
+                    $('#stat-h2-1').html(stat1 + "ms");
+                    $('#stat-h2-2').html(stat2 + "ms");
+                    $('#stat-h2-3').html(stat3 + "ms");
+                    $('#stat-h2-4').html(stat4 + "ms");
+                    $('#stat-h2-5').html(stat5 + "ms");
+                    $('#stat-h2-6').html(stat6 + "ms");
+                    $('#stat-h2-7').html(stat7 + "ms");
                     break;
                 case origins[2]:
-                    $('#statsh2push').html("Total time : " + totalTime);
+                    $('#stat-h2push-0').html(stat0 + "ms");
+                    $('#stat-h2push-1').html(stat1 + "ms");
+                    $('#stat-h2push-2').html(stat2 + "ms");
+                    $('#stat-h2push-3').html(stat3 + "ms");
+                    $('#stat-h2push-4').html(stat4 + "ms");
+                    $('#stat-h2push-5').html(stat5 + "ms");
+                    $('#stat-h2push-6').html(stat6 + "ms");
+                    $('#stat-h2push-7').html(stat7 + "ms");
                     break;
                 default:
                     console.log(e.origin + " : " + e.data);
