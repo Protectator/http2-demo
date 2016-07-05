@@ -36,7 +36,7 @@
                         <th><a href="<?php echo htmlspecialchars('https://fraudit.tic.heia-fr.ch:8082/'.$_GET['siteName']); ?>" target="_blank">HTTP 2</a></th>
                         <th><a href="<?php echo htmlspecialchars('https://fraudit.tic.heia-fr.ch:8083/'.$_GET['siteName']); ?>" target="_blank">HTTP 2 + PUSH</a></th>
                     </tr>
-                    </thead><tfoot>
+                    </thead><tbody>
                     <tr>
                         <td style="width:10%">View</td>
                         <td style="width:30%"><iframe id="h1" style="width:100%; height:500px;">Loading...</iframe></td>
@@ -52,7 +52,7 @@
                         "Response time" => "timing['responseEnd'] - timing['responseStart']",
                         "DOM Processing time" => "timing['domComplete'] - timing['domLoading']",
                         "Time to responseEnd" => "timing['responseEnd'] - timing['navigationStart']",
-                        "Time to domContentLoaded" => "timing['domContentLoaded'] - timing['navigationStart']",
+                        "Time to domContentLoaded" => "timing['domContentLoadedEventStart'] - timing['navigationStart']",
                         "Time to domComplete" => "timing['domComplete'] - timing['navigationStart']",
                     );
 
@@ -99,7 +99,7 @@
             var stat4 = timing['responseEnd'] - timing['responseStart'];
             var stat5 = timing['domComplete'] - timing['domLoading'];
             var stat6 = timing['responseEnd'] - timing['navigationStart'];
-            var stat7 = timing['domContentLoaded'] - timing['navigationStart'];
+            var stat7 = timing['domContentLoadedEventStart'] - timing['navigationStart'];
             var stat8 = timing['domComplete'] - timing['navigationStart'];
             console.log("Message recieved ! : " + e.origin + " : " + e.data);
             switch(e.origin) {
@@ -148,17 +148,20 @@
         var h2push = $('#h2push');
         h1[0].setAttribute("src", "<?php echo htmlspecialchars('https://fraudit.tic.heia-fr.ch:8081/'.$_GET['siteName']); ?>");
         h1.load(function(){
+            h1.parentNode.innerHTML = "Test complete";
             setTimeout(function(){
                 h2[0].setAttribute("src", "<?php echo htmlspecialchars('https://fraudit.tic.heia-fr.ch:8082/'.$_GET['siteName']); ?>");
                 h2.load(function(){
+                    h2.parentNode.innerHTML = "Test complete";
                     setTimeout(function() {
                         h2push[0].setAttribute("src", "<?php echo htmlspecialchars('https://fraudit.tic.heia-fr.ch:8083/'.$_GET['siteName']); ?>");
                         h2push.load(function(){
+                            h2push.parentNode.innerHTML = "Test complete";
                             console.log("Loading finished");
                         });
-                    }, 500);
+                    }, 1000);
                 });
-            }, 500);
+            }, 1000);
 
         });
     });
