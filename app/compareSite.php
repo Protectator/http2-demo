@@ -28,7 +28,7 @@
             <h3 class="ui">Compare HTTP 1.1, HTTP/2 and HTTP/2 + PUSH</h3>
             <div class="ui stacked segment">
                 <h4 class="ui">Site <?php echo htmlspecialchars($_GET['siteName']); ?></h4>
-                <table class="ui celled striped definition table">
+                <table class="ui celled striped table">
                     <thead>
                     <tr>
                         <th>Protocol</th>
@@ -69,6 +69,24 @@
                         $id++;
                     }
                     ?>
+                    <tr>
+                        <th></th>
+                        <th>
+                            <div class="ui small button">
+                                Launch on WebPageTest
+                            </div>
+                        </th>
+                        <th>
+                            <div class="ui small button">
+                                Launch on WebPageTest
+                            </div>
+                        </th>
+                        <th>
+                            <div class="ui small button">
+                                Launch on WebPageTest
+                            </div>
+                        </th>
+                    </tr>
                     </tfoot>
                 </table>
             </div>
