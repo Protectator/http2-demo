@@ -58,18 +58,24 @@
 <div class="after-footer"></div>
 </body>
 <script>
+    var origins = ["https://fraudit.tic.heia-fr.ch:8081",
+        "https://fraudit.tic.heia-fr.ch:8082",
+        "https://fraudit.tic.heia-fr.ch:8083"];
+
     window.addEventListener("message",
         function (e) {
-            console.log("Message recieved !");
+            var timing = JSON.parse(e.data);
+            var totalTime = timing['domContentLoadedEventEnd'] - timing['navigationStart'];
+            console.log("Message recieved ! : " + e.origin + " : " + e.data);
             switch(e.origin) {
                 case origins[0]:
-                    $('#statsh1').innerHTML = e.data;
+                    $('#statsh1').html("Total time : " + totalTime);
                     break;
                 case origins[1]:
-                    $('#statsh2').innerHTML = e.data;
+                    $('#statsh2').html("Total time : " + totalTime);
                     break;
                 case origins[2]:
-                    $('#statsh2push').innerHTML = e.data;
+                    $('#statsh2push').html("Total time : " + totalTime);
                     break;
                 default:
                     console.log(e.origin + " : " + e.data);
@@ -93,8 +99,5 @@
             });
         });
     });
-    var origins = ["https://fraudit.tic.heia-fr.ch:8081",
-        "https://fraudit.tic.heia-fr.ch:8082",
-        "https://fraudit.tic.heia-fr.ch:8083"];
 </script>
 </html>

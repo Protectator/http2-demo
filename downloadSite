@@ -11,7 +11,7 @@ echo 'Header always set Access-Control-Allow-Methods "GET, OPTIONS"' >> "./1/$1/
 
 # Sending postMessage to top frame
 sed -i '$s_<\/html>_ _' "./1/$1/index.html"
-echo '<script>window.addEventListener('load', function(){parent.postMessage(JSON.stringify(window.performance.timing), "*");}, false);</script></html>' >> "./1/$1/index.html"
+echo '<script>window.addEventListener("load", function(){parent.postMessage(JSON.stringify(window.performance.timing), "*");}, false);</script></html>' >> "./1/$1/index.html"
 
 # Copying files to HTTP/2 and HTTP/2+PUSH folders
 cp -R ./1/$1/* "./2/$1/"
@@ -52,7 +52,7 @@ ls -1 --color=never --ignore="index.html" "./2push/$1/" | while read line; do
             echo -n "document"
         ;;
         *) # Default behaviour
-        echo -n "object"
+        echo -n "image" # Turns out that most unrecognized files are images
         ;;
     esac
     echo "'";
