@@ -4,16 +4,25 @@ mkdir -p "./1/$1"
 mkdir -p "./2/$1"
 mkdir -p "./2push/$1"
 wget --no-clobber --page-requisites --adjust-extension --convert-links --restrict-file-names=nocontrol --remote-encoding --no-parent --span-hosts --no-directories --directory-prefix=./1/$1/ $1
-#iconv -f ISO-8859-1 -t UTF-8 "./http1/$1/index.html" > "./http1/$1/index-temp.html"
-#rm "./http1/$1/index.html"
-#mv "./http1/$1/index-temp.html" "./http1/$1/index.html"
+
+# Generic headers
+echo 'Header always set Access-Control-Allow-Origin "*"' >> "./1/$1/.htaccess"
+echo 'Header always set Access-Control-Allow-Methods "GET, OPTIONS"' >> "./1/$1/.htaccess"
+
+# Sending postMessage to top frame
+sed -i '' '/<\/html>/i\
+<script>\
+    top.postMessage(JSON.stringify(window.performance.timing), "*");\
+<\/script>\
+' index.html
+
+# Copying files to HTTP/2 and HTTP/2+PUSH folders
 cp -R ./1/$1/* "./2/$1/"
 cp -R ./1/$1/* "./2push/$1/"
-echo '<Files "index.html">' > "./2push/$1/.htaccess"
+
+# PUSH configuration
+echo '<Files "index.html">' >> "./2push/$1/.htaccess"
 ls -1 --color=never --ignore="index.html" "./2push/$1/" | while read line; do
-    echo '    Header always set Access-Control-Allow-Origin "*"';
-    echo '    Header always set Access-Control-Allow-Methods "GET, OPTIONS"';
-    echo "    Header set X-Frame-Options SAMEORIGIN";
     echo -n "    Header add Link '</$1/$line>;rel=preload;as=";
     filename=$(basename "$line");
     ext=${filename##*.};
