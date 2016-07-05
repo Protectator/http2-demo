@@ -28,12 +28,22 @@
             <h3 class="ui">Compare HTTP 1.1, HTTP/2 and HTTP/2 + PUSH</h3>
             <div class="ui stacked segment">
                 <h4 class="ui">Site <?php echo htmlspecialchars($_GET['siteName']); ?></h4>
+                <table>
+                    <thead><td>Stat</td><td>HTTP 1.1</td><td>HTTP/2</td><td>HTTP/2 + PUSH</td></thead>
+                    <tr>
+                        <td>View</td>
+                        <td><iframe id="h1" style="width: 32%">HTTP 1.1</iframe></td>
+                        <td><iframe id="h2" style="width: 32%">HTTP 2</iframe></td>
+                        <td><iframe id="h2push" style="width: 32%">HTTP 2 + push</iframe></td>
+                    </tr>
+                    <tr>
+                        <td>Stats</td>
+                        <td id="statsh1"></td>
+                        <td id="statsh2"></td>
+                        <td id="statsh2push"></td>
+                    </tr>
 
-                <iframe id="h1" style="width: 32%">HTTP 1.1</iframe>
-
-                <iframe id="h2" style="width: 32%">HTTP 2</iframe>
-
-                <iframe id="h2push" style="width: 32%">HTTP 2 + push</iframe>
+                </table>
             </div>
         </div>
     </div>
@@ -64,6 +74,25 @@
                 });
             });
         });
-    })
+    });
+    var origins = ["https://fraudit.tic.heia-fr.ch:8081",
+        "https://fraudit.tic.heia-fr.ch:8082",
+        "https://fraudit.tic.heia-fr.ch:8083"];
+    switch
+    window.addEventListener("message",
+        function (e) {
+            switch(e.origin) {
+                case origins[0]:
+                    $('#statsh1').innerHTML = e.data;
+                    break;
+                case origins[1]:
+                    $('#statsh2').innerHTML = e.data;
+                    break;
+                case origins[2]:
+                    $('#statsh2push').innerHTML = e.data;
+                    break;
+            }
+        },
+        false);
 </script>
 </html>
