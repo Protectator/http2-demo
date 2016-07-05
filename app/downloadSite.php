@@ -58,7 +58,7 @@ while (!feof($proc))
 }
 $status = pclose($proc);
 if ($status == 0) {
-    $script = "<script type='text/javascript'> window.location.replace('https://fraudit.tic.heia-fr.ch/showSite.php?siteName=".htmlspecialchars($_GET['url']). "');</script>";
+    $script = "<script type='text/javascript'> window.location.replace('https://fraudit.tic.heia-fr.ch/compareSite.php?siteName=".htmlspecialchars($_GET['url']). "');</script>";
     echo $script;
 } else {
     echo "<script>feedback.innerHTML = 'Download failed : ";

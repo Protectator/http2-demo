@@ -13,7 +13,7 @@
 </head>
 <body>
 <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
-<div class="ui stackable inverted menu" id="topBar">
+<div class="ui stackable inverted menu" id="topBar" style="margin-top: 0px;">
     <div class="ui container">
         <a href="/" class="header item">
             http2-demo
@@ -28,16 +28,20 @@
             <h3 class="ui">Compare HTTP 1.1, HTTP/2 and HTTP/2 + PUSH</h3>
             <div class="ui stacked segment">
                 <h4 class="ui">Site <?php echo htmlspecialchars($_GET['siteName']); ?></h4>
-                <table>
-                    <tr><th>Protocol</th>
+                <table class="ui celled striped table">
+                    <thead>
+                    <tr>
+                        <th>Protocol</th>
                         <th><a href="<?php echo htmlspecialchars('https://fraudit.tic.heia-fr.ch:8081/'.$_GET['siteName']); ?>" target="_blank">HTTP 1.1</a></th>
                         <th><a href="<?php echo htmlspecialchars('https://fraudit.tic.heia-fr.ch:8082/'.$_GET['siteName']); ?>" target="_blank">HTTP 2</a></th>
-                        <th><a href="<?php echo htmlspecialchars('https://fraudit.tic.heia-fr.ch:8083/'.$_GET['siteName']); ?>" target="_blank">HTTP 2 + PUSH</a></th></tr>
+                        <th><a href="<?php echo htmlspecialchars('https://fraudit.tic.heia-fr.ch:8083/'.$_GET['siteName']); ?>" target="_blank">HTTP 2 + PUSH</a></th>
+                    </tr>
+                    </thead><tbody>
                     <tr>
-                        <td>View</td>
-                        <td><iframe id="h1" style="width:100%;">Loading...</iframe></td>
-                        <td><iframe id="h2" style="width:100%;">Loading...</iframe></td>
-                        <td><iframe id="h2push" style="width:100%;">Loading...</iframe></td>
+                        <td style="width:10%">View</td>
+                        <td style="width:30%"><iframe id="h1" style="width:100%; height:500px;">Loading...</iframe></td>
+                        <td style="width:30%"><iframe id="h2" style="width:100%; height:500px;">Loading...</iframe></td>
+                        <td style="width:30%"><iframe id="h2push" style="width:100%; height:500px;">Loading...</iframe></td>
                     </tr>
                     <?php
                     $stats = array(
@@ -57,7 +61,7 @@
                         $id++;
                     }
                     ?>
-
+                    </tbody>
                 </table>
             </div>
         </div>
@@ -132,14 +136,18 @@
         var h2push = $('#h2push');
         h1[0].setAttribute("src", "<?php echo htmlspecialchars('https://fraudit.tic.heia-fr.ch:8081/'.$_GET['siteName']); ?>");
         h1.load(function(){
-            console.log();
-            h2[0].setAttribute("src", "<?php echo htmlspecialchars('https://fraudit.tic.heia-fr.ch:8082/'.$_GET['siteName']); ?>");
-            h2.load(function(){
-                h2push[0].setAttribute("src", "<?php echo htmlspecialchars('https://fraudit.tic.heia-fr.ch:8083/'.$_GET['siteName']); ?>");
-                h2push.load(function(){
-                    console.log("Loading finished");
+            setInterval(function(){
+                h2[0].setAttribute("src", "<?php echo htmlspecialchars('https://fraudit.tic.heia-fr.ch:8082/'.$_GET['siteName']); ?>");
+                h2.load(function(){
+                    setInterval(function() {
+                        h2push[0].setAttribute("src", "<?php echo htmlspecialchars('https://fraudit.tic.heia-fr.ch:8083/'.$_GET['siteName']); ?>");
+                        h2push.load(function(){
+                            console.log("Loading finished");
+                        });
+                    }, 500);
                 });
-            });
+            }, 500);
+
         });
     });
 </script>
