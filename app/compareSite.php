@@ -28,6 +28,18 @@
             <h3 class="ui">Compare HTTP 1.1, HTTP/2 and HTTP/2 + PUSH</h3>
             <div class="ui stacked segment">
                 <h4 class="ui">Site <?php echo htmlspecialchars($_GET['siteName']); ?></h4>
+                <div class="ui form">
+                    <div class="inline field">
+                        <label>Number of tests</label>
+                        <div class="ui right action input">
+                            <input type="number" value="5" id="numberOfTests" name="numberOfTests">
+                            <button class="ui teal labeled icon button" id="launchButton">
+                                <i class="cart icon"></i>
+                                Run
+                            </button>
+                        </div>
+                    </div>
+                </div>
                 <table class="ui celled striped table">
                     <thead>
                     <tr>
@@ -89,59 +101,47 @@
         "https://fraudit.tic.heia-fr.ch:8082",
         "https://fraudit.tic.heia-fr.ch:8083"];
 
+    total = [];
+    total[0] = [];
+    total[1] = [];
+    total[2] = [];
+
     window.addEventListener("message",
         function (e) {
             var timing = JSON.parse(e.data);
-            var stat0 = timing['redirectEnd'] - timing['navigationStart'];
-            var stat1 = timing['domainLookupEnd'] - timing['redirectEnd'];
-            var stat2 = timing['requestStart'] - timing['domainLookupEnd'];
-            var stat3 = timing['responseStart'] - timing['requestStart'];
-            var stat4 = timing['responseEnd'] - timing['responseStart'];
-            var stat5 = timing['domComplete'] - timing['domLoading'];
-            var stat6 = timing['responseEnd'] - timing['navigationStart'];
-            var stat7 = timing['domContentLoadedEventStart'] - timing['navigationStart'];
-            var stat8 = timing['domComplete'] - timing['navigationStart'];
+            var stats = [<?php echo $stats.implode(", ") ?>];
             console.log("Message recieved ! : " + e.origin + " : " + e.data);
+            var i;
             switch(e.origin) {
                 case origins[0]:
-                    $('#stat-h1-0').html(stat0 + "ms");
-                    $('#stat-h1-1').html(stat1 + "ms");
-                    $('#stat-h1-2').html(stat2 + "ms");
-                    $('#stat-h1-3').html(stat3 + "ms");
-                    $('#stat-h1-4').html(stat4 + "ms");
-                    $('#stat-h1-5').html(stat5 + "ms");
-                    $('#stat-h1-6').html(stat6 + "ms");
-                    $('#stat-h1-7').html(stat7 + "ms");
-                    $('#stat-h1-8').html(stat8 + "ms");
+                    for (i = 0; i < stats.length; i++) {
+                        total[0][i] += stat[i];
+                        $('#stat-h1-' + i).html(stat[i] + "ms");
+                    }
                     break;
                 case origins[1]:
-                    $('#stat-h2-0').html(stat0 + "ms");
-                    $('#stat-h2-1').html(stat1 + "ms");
-                    $('#stat-h2-2').html(stat2 + "ms");
-                    $('#stat-h2-3').html(stat3 + "ms");
-                    $('#stat-h2-4').html(stat4 + "ms");
-                    $('#stat-h2-5').html(stat5 + "ms");
-                    $('#stat-h2-6').html(stat6 + "ms");
-                    $('#stat-h2-7').html(stat7 + "ms");
-                    $('#stat-h2-8').html(stat8 + "ms");
+                    for (i = 0; i < stats.length; i++) {
+                        total[1][i] += stat[i];
+                        $('#stat-h2-' + i).html(stat[i] + "ms");
+                    }
                     break;
                 case origins[2]:
-                    $('#stat-h2push-0').html(stat0 + "ms");
-                    $('#stat-h2push-1').html(stat1 + "ms");
-                    $('#stat-h2push-2').html(stat2 + "ms");
-                    $('#stat-h2push-3').html(stat3 + "ms");
-                    $('#stat-h2push-4').html(stat4 + "ms");
-                    $('#stat-h2push-5').html(stat5 + "ms");
-                    $('#stat-h2push-6').html(stat6 + "ms");
-                    $('#stat-h2push-7').html(stat7 + "ms");
-                    $('#stat-h2push-8').html(stat8 + "ms");
+                    for (i = 0; i < stats.length; i++) {
+                        total[2][i] += stat[i];
+                        $('#stat-h2push-' + i).html(stat[i] + "ms");
+                    }
                     break;
                 default:
                     console.log(e.origin + " : " + e.data);
             }
         },
         false);
-    $(document).ready(function() {
+
+    $("#launchButton").onclick(function() {
+        launchBenchmark(1000, $("#numberOfTests"));
+    });
+
+    function launchBenchmark(delay, times) {
         console.log("Initializing iframes");
         var h1 = $('#h1');
         var h2 = $('#h2');
@@ -158,12 +158,17 @@
                         h2push.load(function(){
                             h2push[0].parentNode.innerHTML = "Test complete";
                             console.log("Loading finished");
+                            if (times-- > 0) {
+                                setTimeout(function() {
+                                    launchBenchmark(delay, times);
+                                }, delay);
+                            }
                         });
-                    }, 1000);
+                    }, delay);
                 });
-            }, 1000);
-
+            }, delay);
         });
-    });
+    }
+
 </script>
 </html>
