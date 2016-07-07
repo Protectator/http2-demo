@@ -69,24 +69,6 @@
                         $id++;
                     }
                     ?>
-                    <tr>
-                        <th></th>
-                        <th>
-                            <div class="ui small button">
-                                Launch on WebPageTest
-                            </div>
-                        </th>
-                        <th>
-                            <div class="ui small button">
-                                Launch on WebPageTest
-                            </div>
-                        </th>
-                        <th>
-                            <div class="ui small button">
-                                Launch on WebPageTest
-                            </div>
-                        </th>
-                    </tr>
                     </tfoot>
                 </table>
             </div>
