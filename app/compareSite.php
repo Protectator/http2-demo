@@ -32,9 +32,9 @@
                     <div class="inline field">
                         <label>Number of tests</label>
                         <div class="ui right action input">
-                            <input type="number" value="5" id="numberOfTests" name="numberOfTests">
+                            <input type="number" value="5" id="numberOfTests" name="numberOfTests" min="0" max="10000" style="width:84px; padding-right: 4px;">
                             <button class="ui teal labeled icon button" id="launchButton">
-                                <i class="cart icon"></i>
+                                <i class="lab icon"></i>
                                 Run
                             </button>
                         </div>
@@ -115,20 +115,20 @@
             switch(e.origin) {
                 case origins[0]:
                     for (i = 0; i < stats.length; i++) {
-                        total[0][i] += stat[i];
-                        $('#stat-h1-' + i).html(stat[i] + "ms");
+                        total[0][i] += stats[i];
+                        $('#stat-h1-' + i).html(stats[i] + "ms");
                     }
                     break;
                 case origins[1]:
                     for (i = 0; i < stats.length; i++) {
-                        total[1][i] += stat[i];
-                        $('#stat-h2-' + i).html(stat[i] + "ms");
+                        total[1][i] += stats[i];
+                        $('#stat-h2-' + i).html(stats[i] + "ms");
                     }
                     break;
                 case origins[2]:
                     for (i = 0; i < stats.length; i++) {
-                        total[2][i] += stat[i];
-                        $('#stat-h2push-' + i).html(stat[i] + "ms");
+                        total[2][i] += stats[i];
+                        $('#stat-h2push-' + i).html(stats[i] + "ms");
                     }
                     break;
                 default:
@@ -137,7 +137,7 @@
         },
         false);
 
-    $("#launchButton").onclick(function() {
+    $("#launchButton").click(function() {
         launchBenchmark(1000, $("#numberOfTests"));
     });
 
