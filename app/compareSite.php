@@ -202,8 +202,9 @@
         false);
 
     $("#launchButton").click(function() {
-        $("launchButton").disable();
-        launchBenchmark(1000, $("#numberOfTests"));
+        $("#launchButton").prop('disabled', true);
+        $("#launchButton").addClass('loading disabled');
+        launchBenchmark(500, parseInt($("#numberOfTests")[0].value));
     });
 
     function launchBenchmark(delay, times) {
@@ -223,6 +224,7 @@
             style: 'width:100%; height:200px;'
         }).appendTo('#h2pushcontainer');
         total['pass']++;
+        console.log("Starting test " + total['pass']);
         console.log("Initializing iframes");
         var h1 = $('#h1');
         var h2 = $('#h2');
@@ -243,6 +245,9 @@
                                 setTimeout(function() {
                                     launchBenchmark(delay, times);
                                 }, delay);
+                            } else {
+                                $("#launchButton").prop('disabled', false);
+                                $("#launchButton").removeClass('loading disabled');
                             }
                         });
                     }, delay);

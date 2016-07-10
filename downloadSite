@@ -1,8 +1,12 @@
 #!/bin/bash
 
+rm -rf "./1/$1"
+rm -rf "./2/$1"
+rm -rf "./2push/$1"
 mkdir -p "./1/$1"
 mkdir -p "./2/$1"
 mkdir -p "./2push/$1"
+
 wget --no-clobber --page-requisites --adjust-extension --convert-links --restrict-file-names=nocontrol --remote-encoding --no-parent --span-hosts --no-directories --directory-prefix=./1/$1/ $1
 
 # Generic headers
