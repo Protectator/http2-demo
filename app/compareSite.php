@@ -102,9 +102,22 @@
         "https://fraudit.tic.heia-fr.ch:8083"];
 
     total = [];
-    total[0] = [];
-    total[1] = [];
-    total[2] = [];
+    total['avg'] = [];
+    total['avg'][0] = [];
+    total['avg'][1] = [];
+    total['avg'][2] = [];
+    total = [];
+    total['min'] = [];
+    total['min'][0] = [];
+    total['min'][1] = [];
+    total['min'][2] = [];
+    total = [];
+    total['max'] = [];
+    total['max'][0] = [];
+    total['max'][1] = [];
+    total['max'][2] = [];
+    total['pass'] = 0;
+
 
     window.addEventListener("message",
         function (e) {
@@ -115,20 +128,59 @@
             switch(e.origin) {
                 case origins[0]:
                     for (i = 0; i < stats.length; i++) {
-                        total[0][i] += stat[i];
-                        $('#stat-h1-' + i).html(stat[i] + "ms");
+                        total['avg'][0][i] += stats[i];
+                        if (total['min'][0][i]) {
+                            total['min'][0][i] = Math.min(total['min'][0][i], stats[i]);
+                        } else {
+                            total['min'][0][i] = stats[i];
+                        }
+                        if (total['max'][0][i]) {
+                            total['max'][0][i] = Math.max(total['max'][0][i], stats[i]);
+                        } else {
+                            total['max'][0][i] = stats[i];
+                        }
+                        var currentAvg = total['avg'][0][i]/total['pass'];
+                        var currentMin = total['min'][0][i];
+                        var currentMax = total['max'][0][i];
+                        $('#stat-h1-' + i).html("<b>" + currentAvg + "</b> | " + currentMin + " | " + currentMax);
                     }
                     break;
                 case origins[1]:
                     for (i = 0; i < stats.length; i++) {
-                        total[1][i] += stat[i];
-                        $('#stat-h2-' + i).html(stat[i] + "ms");
+                        total['avg'][1][i] += stats[i];
+                        if (total['min'][1][i]) {
+                            total['min'][1][i] = Math.min(total['min'][1][i], stats[i]);
+                        } else {
+                            total['min'][1][i] = stats[i];
+                        }
+                        if (total['max'][1][i]) {
+                            total['max'][1][i] = Math.max(total['max'][1][i], stats[i]);
+                        } else {
+                            total['max'][1][i] = stats[i];
+                        }
+                        var currentAvg = total['avg'][1][i]/total['pass'];
+                        var currentMin = total['min'][1][i];
+                        var currentMax = total['max'][1][i];
+                        $('#stat-h2-' + i).html("<b>" + currentAvg + "</b> | " + currentMin + " | " + currentMax);
                     }
                     break;
                 case origins[2]:
                     for (i = 0; i < stats.length; i++) {
-                        total[2][i] += stat[i];
-                        $('#stat-h2push-' + i).html(stat[i] + "ms");
+                        total['avg'][2][i] += stats[i];
+                        if (total['min'][2][i]) {
+                            total['min'][2][i] = Math.min(total['min'][2][i], stats[i]);
+                        } else {
+                            total['min'][2][i] = stats[i];
+                        }
+                        if (total['max'][2][i]) {
+                            total['max'][2][i] = Math.max(total['max'][2][i], stats[i]);
+                        } else {
+                            total['max'][2][i] = stats[i];
+                        }
+                        var currentAvg = total['avg'][2][i]/total['pass'];
+                        var currentMin = total['min'][2][i];
+                        var currentMax = total['max'][2][i];
+                        $('#stat-h2push-' + i).html("<b>" + currentAvg + "</b> | " + currentMin + " | " + currentMax);
                     }
                     break;
                 default:
@@ -142,6 +194,7 @@
     });
 
     function launchBenchmark(delay, times) {
+        total['pass']++;
         console.log("Initializing iframes");
         var h1 = $('#h1');
         var h2 = $('#h2');
