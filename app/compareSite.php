@@ -68,6 +68,8 @@
                         "Time to domComplete" => "timing['domComplete'] - timing['navigationStart']",
                     );
 
+                    $values = array_map('array_pop', $stats);
+
                     $id = 0;
                     foreach ($stats as $key => $value) {
                         if ($id == 5) {
@@ -106,13 +108,9 @@
     total['avg'][0] = [];
     total['avg'][1] = [];
     total['avg'][2] = [];
-    total = [];
-    total['min'] = [];
     total['min'][0] = [];
     total['min'][1] = [];
     total['min'][2] = [];
-    total = [];
-    total['max'] = [];
     total['max'][0] = [];
     total['max'][1] = [];
     total['max'][2] = [];
@@ -122,7 +120,7 @@
     window.addEventListener("message",
         function (e) {
             var timing = JSON.parse(e.data);
-            var stats = [<?php echo $stats.implode(", ") ?>];
+            var stats = [<?php echo implode(", ", $values); ?>];
             console.log("Message recieved ! : " + e.origin + " : " + e.data);
             var i;
             switch(e.origin) {
