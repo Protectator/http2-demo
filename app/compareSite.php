@@ -68,7 +68,7 @@
                         "Time to domComplete" => "timing['domComplete'] - timing['navigationStart']",
                     );
 
-                    $values = array_map('array_pop', $stats);
+                    $values = array_values($stats);
 
                     $id = 0;
                     foreach ($stats as $key => $value) {
@@ -108,9 +108,11 @@
     total['avg'][0] = [];
     total['avg'][1] = [];
     total['avg'][2] = [];
+    total['min'] = [];
     total['min'][0] = [];
     total['min'][1] = [];
     total['min'][2] = [];
+    total['max'] = [];
     total['max'][0] = [];
     total['max'][1] = [];
     total['max'][2] = [];
@@ -200,6 +202,7 @@
         false);
 
     $("#launchButton").click(function() {
+        $("launchButton").disable();
         launchBenchmark(1000, $("#numberOfTests"));
     });
 
