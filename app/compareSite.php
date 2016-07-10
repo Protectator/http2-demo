@@ -128,7 +128,11 @@
             switch(e.origin) {
                 case origins[0]:
                     for (i = 0; i < stats.length; i++) {
-                        total['avg'][0][i] += stats[i];
+                        if (total['avg'][0][i]) {
+                            total['avg'][0][i] += stats[i];
+                        } else {
+                            total['avg'][0][i] = stats[i];
+                        }
                         if (total['min'][0][i]) {
                             total['min'][0][i] = Math.min(total['min'][0][i], stats[i]);
                         } else {
@@ -147,7 +151,11 @@
                     break;
                 case origins[1]:
                     for (i = 0; i < stats.length; i++) {
-                        total['avg'][1][i] += stats[i];
+                        if (total['avg'][1][i]) {
+                            total['avg'][1][i] += stats[i];
+                        } else {
+                            total['avg'][1][i] = stats[i];
+                        }
                         if (total['min'][1][i]) {
                             total['min'][1][i] = Math.min(total['min'][1][i], stats[i]);
                         } else {
@@ -166,7 +174,11 @@
                     break;
                 case origins[2]:
                     for (i = 0; i < stats.length; i++) {
-                        total['avg'][2][i] += stats[i];
+                        if (total['avg'][2][i]) {
+                            total['avg'][2][i] += stats[i];
+                        } else {
+                            total['avg'][2][i] = stats[i];
+                        }
                         if (total['min'][2][i]) {
                             total['min'][2][i] = Math.min(total['min'][2][i], stats[i]);
                         } else {
