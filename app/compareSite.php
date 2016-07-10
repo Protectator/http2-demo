@@ -22,7 +22,7 @@
     </div>
 </div>
 <div class="ui main text" style="margin-top: 1.5em;" id="stickContext">
-    <div class="ui middle aligned center aligned grid">
+    <div class="ui middle aligned center aligned grid container">
         <div class="column">
             <h2 class="ui image">http2-demo</h2>
             <h3 class="ui">Compare HTTP 1.1, HTTP/2 and HTTP/2 + PUSH</h3>
@@ -76,7 +76,7 @@
                         if ($id == 6) {
                             echo "</tbody><tfoot>";
                         }
-                        if ($id <= 6) {
+                        if ($id < 6) {
                             echo "<tr><td>".$key."</td><td id='stat-h1-".$id."'></td><td id='stat-h2-".$id."'></td><td id='stat-h2push-".$id."'></td></tr>";
                         } else {
                             echo "<tr><th>".$key."</th><th id='stat-h1-".$id."'></th><th id='stat-h2-".$id."'></th><th id='stat-h2push-".$id."'></th></tr>";
@@ -122,6 +122,7 @@
     total['max'][1] = [];
     total['max'][2] = [];
     total['pass'] = 0;
+    total['tests'] = 0;
 
     function round1(float) {
         return Math.round(float * 10) / 10;
@@ -214,6 +215,7 @@
         $("#testInput").prop('disabled', true);
         $("#launchButton").addClass('loading disabled');
         $("#testInput").addClass('disabled');
+        total['tests'] += $("#numberOfTests")[0].value;
         launchBenchmark(500, parseInt($("#numberOfTests")[0].value));
     });
 
@@ -234,7 +236,7 @@
             style: 'width:100%; height:200px;'
         }).appendTo('#h2pushcontainer');
         total['pass']++;
-        $("#runningTest").html("Test " + total['pass'] + " / " + $('#testInput')[0].value);
+        $("#runningTest").html("Test " + total['pass'] + " / " + total['tests'];
         console.log("Starting test " + total['pass']);
         console.log("Initializing iframes");
         var h1 = $('#h1');
@@ -252,7 +254,7 @@
                         h2push.load(function(){
                             h2push[0].parentNode.innerHTML = "Test complete";
                             console.log("Loading finished");
-                            if (times-- > 0) {
+                            if (times-- >= 0) {
                                 setTimeout(function() {
                                     launchBenchmark(delay, times);
                                 }, delay);
