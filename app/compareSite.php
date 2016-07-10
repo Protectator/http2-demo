@@ -51,9 +51,9 @@
                     </thead><tbody>
                     <tr>
                         <td style="width:10%">View</td>
-                        <td style="width:30%"><iframe id="h1" style="width:100%; height:500px;">Loading...</iframe></td>
-                        <td style="width:30%"><iframe id="h2" style="width:100%; height:500px;">Loading...</iframe></td>
-                        <td style="width:30%"><iframe id="h2push" style="width:100%; height:500px;">Loading...</iframe></td>
+                        <td style="width:30%" id="h1container">Ready</td>
+                        <td style="width:30%" id="h2container">Ready</td>
+                        <td style="width:30%" id="h2pushcontainer">Ready</td>
                     </tr>
                     <?php
                     $stats = array(
@@ -207,6 +207,21 @@
     });
 
     function launchBenchmark(delay, times) {
+        $('#h1container').html("Ready");
+        $('#h2container').html("Ready");
+        $('#h2pushcontainer').html("Ready");
+        $('<iframe>', {
+            id:  'h1',
+            style: 'width:100%; height:200px;'
+        }).appendTo('#h1container');
+        $('<iframe>', {
+            id:  'h2',
+            style: 'width:100%; height:200px;'
+        }).appendTo('#h2container');
+        $('<iframe>', {
+            id:  'h2push',
+            style: 'width:100%; height:200px;'
+        }).appendTo('#h2pushcontainer');
         total['pass']++;
         console.log("Initializing iframes");
         var h1 = $('#h1');
