@@ -31,7 +31,7 @@
                 <div class="ui form">
                     <div class="inline field">
                         <label>Number of tests</label>
-                        <div class="ui right action input">
+                        <div id="testInput" class="ui right action input">
                             <input type="number" value="5" id="numberOfTests" name="numberOfTests" min="0" max="10000" style="width:84px; padding-right: 4px;">
                             <button class="ui teal labeled icon button" id="launchButton">
                                 <i class="lab icon"></i>
@@ -40,6 +40,7 @@
                         </div>
                     </div>
                 </div>
+                <p id="runningTest"></p>
                 <table class="ui celled striped table">
                     <thead>
                     <tr>
@@ -72,10 +73,10 @@
 
                     $id = 0;
                     foreach ($stats as $key => $value) {
-                        if ($id == 5) {
+                        if ($id == 6) {
                             echo "</tbody><tfoot>";
                         }
-                        if ($id <= 5) {
+                        if ($id <= 6) {
                             echo "<tr><td>".$key."</td><td id='stat-h1-".$id."'></td><td id='stat-h2-".$id."'></td><td id='stat-h2push-".$id."'></td></tr>";
                         } else {
                             echo "<tr><th>".$key."</th><th id='stat-h1-".$id."'></th><th id='stat-h2-".$id."'></th><th id='stat-h2push-".$id."'></th></tr>";
@@ -85,6 +86,10 @@
                     ?>
                     </tfoot>
                 </table>
+                <p>
+                    <b>Average</b> | Min | Max<br>
+                    All units are in milliseconds [ms].
+                </p>
             </div>
         </div>
     </div>
@@ -118,6 +123,9 @@
     total['max'][2] = [];
     total['pass'] = 0;
 
+    function round1(float) {
+        return Math.round(float * 10) / 10;
+    }
 
     window.addEventListener("message",
         function (e) {
@@ -146,7 +154,7 @@
                         var currentAvg = total['avg'][0][i]/total['pass'];
                         var currentMin = total['min'][0][i];
                         var currentMax = total['max'][0][i];
-                        $('#stat-h1-' + i).html("<b>" + currentAvg + "</b> | " + currentMin + " | " + currentMax);
+                        $('#stat-h1-' + i).html("<b>" + round1(currentAvg) + "</b> | " + currentMin + " | " + currentMax);
                     }
                     break;
                 case origins[1]:
@@ -169,7 +177,7 @@
                         var currentAvg = total['avg'][1][i]/total['pass'];
                         var currentMin = total['min'][1][i];
                         var currentMax = total['max'][1][i];
-                        $('#stat-h2-' + i).html("<b>" + currentAvg + "</b> | " + currentMin + " | " + currentMax);
+                        $('#stat-h2-' + i).html("<b>" + round1(currentAvg) + "</b> | " + currentMin + " | " + currentMax);
                     }
                     break;
                 case origins[2]:
@@ -192,7 +200,7 @@
                         var currentAvg = total['avg'][2][i]/total['pass'];
                         var currentMin = total['min'][2][i];
                         var currentMax = total['max'][2][i];
-                        $('#stat-h2push-' + i).html("<b>" + currentAvg + "</b> | " + currentMin + " | " + currentMax);
+                        $('#stat-h2push-' + i).html("<b>" + round1(currentAvg) + "</b> | " + currentMin + " | " + currentMax);
                     }
                     break;
                 default:
@@ -203,7 +211,9 @@
 
     $("#launchButton").click(function() {
         $("#launchButton").prop('disabled', true);
+        $("#testInput").prop('disabled', true);
         $("#launchButton").addClass('loading disabled');
+        $("#testInput").addClass('disabled');
         launchBenchmark(500, parseInt($("#numberOfTests")[0].value));
     });
 
@@ -224,6 +234,7 @@
             style: 'width:100%; height:200px;'
         }).appendTo('#h2pushcontainer');
         total['pass']++;
+        $("#runningTest").html("Test " + total['pass'] + " / " + $('#testInput')[0].value);
         console.log("Starting test " + total['pass']);
         console.log("Initializing iframes");
         var h1 = $('#h1');
@@ -247,7 +258,9 @@
                                 }, delay);
                             } else {
                                 $("#launchButton").prop('disabled', false);
+                                $("#testInput").prop('disabled', false);
                                 $("#launchButton").removeClass('loading disabled');
+                                $("#testInput").removeClass('disabled');
                             }
                         });
                     }, delay);
