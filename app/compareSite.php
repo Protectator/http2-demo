@@ -30,6 +30,16 @@
                 <h4 class="ui">Site <?php echo htmlspecialchars($_GET['siteName']); ?></h4>
                 <div class="ui form">
                     <div class="inline field">
+                        <label>Delay</label>
+                        <div id="testInput" class="ui right action input">
+                            <input type="number" value="<?php echo file_get_contents("currentDelay.txt"); ?>" id="delay" name="delay" min="0" max="10000" style="width:84px; padding-right: 4px;">
+                            <button class="ui teal labeled icon button" id="delayButton">
+                                <i class="hourglass half icon"></i>
+                                Set
+                            </button>
+                        </div>
+                    </div>
+                    <div class="inline field">
                         <label>Number of tests</label>
                         <div id="testInput" class="ui right action input">
                             <input type="number" value="5" id="numberOfTests" name="numberOfTests" min="0" max="10000" style="width:84px; padding-right: 4px;">
@@ -217,6 +227,13 @@
         $("#testInput").addClass('disabled');
         total['tests'] += parseInt($("#numberOfTests")[0].value);
         launchBenchmark(500, parseInt($("#numberOfTests")[0].value));
+    });
+
+    $("#delayButton").click(function(){
+        var delayValue = $("#delay")[0].value;
+        $.get("/delay.php?delay=" + delayValue, function(data) {
+            alert(data);
+        });
     });
 
     function launchBenchmark(delay, times) {
