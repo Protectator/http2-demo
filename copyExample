@@ -420,8 +420,6 @@ EOM
 
 cat > ./2push/example2/.htaccess <<- EOM
 <Files "index.html">
-    Header add Link '</example/img-0-0.png>;rel=preload;as=image'
-    Header add Link '</example/img-0-1.png>;rel=preload;as=image'
-    Header add Link '</example/img-0-2.png>;rel=preload;as=image'
+    Header add Link '</example2/img-0-0.png>;rel=preload;as=image'
 </Files>
 EOM
