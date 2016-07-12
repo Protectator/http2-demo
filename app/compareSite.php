@@ -32,7 +32,7 @@
                     <div class="inline field">
                         <label>Delay</label>
                         <div id="testInput" class="ui right action input">
-                            <input type="number" value="<?php echo file_get_contents("currentDelay.txt"); ?>" id="delay" name="delay" min="0" max="10000" style="width:84px; padding-right: 4px;">
+                            <input type="number" value="<?php echo intval(file_get_contents("currentDelay.txt")); ?>" id="delay" name="delay" min="0" max="10000" style="width:84px; padding-right: 4px;">
                             <button class="ui teal labeled icon button" id="delayButton">
                                 <i class="hourglass half icon"></i>
                                 Set
@@ -225,14 +225,24 @@
         $("#testInput").prop('disabled', true);
         $("#launchButton").addClass('loading disabled');
         $("#testInput").addClass('disabled');
+        $("#delay").prop('disabled', true).addClass('disabled');
+        $("#delayButton").prop('disabled', true).addClass('disabled');
         total['tests'] += parseInt($("#numberOfTests")[0].value);
         launchBenchmark(500, parseInt($("#numberOfTests")[0].value));
     });
 
     $("#delayButton").click(function(){
         var delayValue = $("#delay")[0].value;
+        $("#delay").prop('disabled', true).addClass('disabled');
+        $("#delayButton").prop('disabled', true).addClass('disabled');
         $.get("/delay.php?delay=" + delayValue, function(data) {
-            alert(data);
+            if (data.substring(0, 5) == "ERROR") {
+                alert(data);
+            } else {
+                alert("Delay has been set to " + data + "ms.");
+            }
+            $("#delay").prop('disabled', false).removeClass('disabled');
+            $("#delayButton").prop('disabled', false).removeClass('disabled');
         });
     });
 
@@ -280,6 +290,8 @@
                                 $("#testInput").prop('disabled', false);
                                 $("#launchButton").removeClass('loading disabled');
                                 $("#testInput").removeClass('disabled');
+                                $("#delay").prop('disabled', false).removeClass('disabled');
+                                $("#delayButton").prop('disabled', false).removeClass('disabled');
                             }
                         });
                     }, delay);
