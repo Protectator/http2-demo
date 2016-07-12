@@ -24,4 +24,4 @@ tc filter add dev eth0 protocol ip prio 1 u32 match ip sport 8081 0xffff flowid 
 tc filter add dev eth0 protocol ip prio 1 u32 match ip sport 8082 0xffff flowid 1:12
 tc filter add dev eth0 protocol ip prio 1 u32 match ip sport 8083 0xffff flowid 1:13
 
-"$1" > ./app/currentDelay.txt
+echo "$1" > ./app/currentDelay.txt
