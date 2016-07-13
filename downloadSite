@@ -24,8 +24,9 @@ cp -R ./1/$1/* "./2push/$1/"
 # PUSH configuration
 echo '<Files "index.html">' >> "./2push/$1/.htaccess"
 ls -1 --color=never --ignore="index.html" "./2push/$1/" | while read line; do
-    echo -n "    Header add Link '</$1/$line>;rel=preload;as=";
-    filename=$(basename "$line");
+    decoded=$(echo -e `echo $line | sed 's/+/ /g;s/%/\\\\x/g;'`)
+    echo -n "    Header add Link '</$1/$decoded>;rel=preload;as=";
+    filename=$(basename "$decoded");
     ext=${filename##*.};
     case "$ext" in # According to https://w3c.github.io/preload/#attributes
         "aac" | "aiff" | "flac" | "m4a" | "mp3" | "ogg" | "wav" | "wma") # Audio formats
