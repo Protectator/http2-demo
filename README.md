@@ -76,7 +76,6 @@ Folder `/srv/http2-demo/1` will contain pages served over HTTP 1.1 on port `:808
   <Directory "/srv/http2-demo/1/">
     Require all granted
     Options +Indexes
-    AddDefaultCharset ISO-8859-1
     Header unset ETag
     Header set Cache-Control "max-age=0, no-cache, no-store, must-revalidate"
     Header set Pragma "no-cache"
@@ -96,7 +95,6 @@ Folder `/srv/http2-demo/2` will contain pages served over HTTP/2 on port `:8082`
   <Directory "/srv/http2-demo/2/">
     Require all granted
     Options +Indexes
-    AddDefaultCharset ISO-8859-1
     Header unset ETag
     Header set Cache-Control "max-age=0, no-cache, no-store, must-revalidate"
     Header set Pragma "no-cache"
@@ -121,7 +119,6 @@ Folder `/srv/http2-demo/2push` will contain pages served over HTTP/2+PUSH enable
   <Directory "/srv/http2-demo/2push/">
     Require all granted
     Options +Indexes
-    AddDefaultCharset ISO-8859-1
     AllowOverride All
     Header set Cache-Control "max-age=0, no-cache, no-store, must-revalidate"
     Header set Pragma "no-cache"
