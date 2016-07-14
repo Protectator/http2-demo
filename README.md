@@ -48,15 +48,21 @@ sudo chmod -R g+x app
 
 Configure 4 virtual hosts on Apache :
 
-* The first will be for the main application. Its root is the root of the project, in this case `/srv/http2-demo/`.
+* The first will be for the main application. Its root is the folder `app` of the project, in this case `/srv/http2-demo/app/`.
 
 ```
-DocumentRoot /srv/http2-demo/app/
+<VirtualHost *:443>
+  DocumentRoot /srv/http2-demo/app/
   
-<Directory "/srv/http2-demo/app/">
-  Require all granted
-  Options +Indexes
-</Directory>
+  <Directory "/srv/http2-demo/app/">
+    Require all granted
+    Options +Indexes
+  </Directory>
+  
+  SSLEngine On
+  SSLCertificateFile      /etc/ssl/certs/your-cert.pem # Change path to your cert file
+  SSLCertificateKeyFile /etc/ssl/private/your-cert.key # Change path to your cert file
+</VirtualHost>
 ```
 
 * The three others will serve the downloaded pages in HTTP 1.1, HTTP/2 and HTTP/2+PUSH. Here, We'll use ports respectively 8081, 8082 and 8083.
