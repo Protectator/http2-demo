@@ -27,7 +27,7 @@
             <h3 class="ui">Compare HTTP 1.1, HTTP/2 and HTTP/2 + PUSH</h3>
             <div class="ui stacked segment left aligned" id="dlContent">
                 <p>Download of <?php echo htmlspecialchars($_GET['url']); ?> in progress... You'll be redirected once it has ended.</p>
-                <p>If the page has finished loading but you are still here, click <a href="https://fraudit.tic.heia-fr.ch/showSite.php?siteName=<?php echo htmlspecialchars($_GET['url']); ?>">here</a>.
+                <p>If you haven't been redirected after a minute, click <a href="https://fraudit.tic.heia-fr.ch/compareSite.php?siteName=<?php echo htmlspecialchars($_GET['url']); ?>">here</a>.
                 <pre id="feedback">
                 </pre>
             </div>
