@@ -11,7 +11,7 @@ Compare the differences of performance to serve a same page of your choice using
 You'll need :
 
 * An Unix environment
-* [Apache](https://httpd.apache.org/) + PHP5
+* [Apache](https://httpd.apache.org/) **2.4.17** minimum + PHP5
 
 # Installing
 
