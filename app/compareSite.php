@@ -277,15 +277,15 @@
         var h1 = $('#h1');
         var h2 = $('#h2');
         var h2push = $('#h2push');
-        h1[0].setAttribute("src", "<?php echo htmlspecialchars($_SERVER['SERVER_NAME'].':8081/'.$_GET['siteName']); ?>");
+        h1[0].setAttribute("src", 'http://' + window.location.hostname + ':8081/' + siteName);
         h1.load(function(){
             h1[0].parentNode.innerHTML = "Test complete";
             setTimeout(function(){
-                h2[0].setAttribute("src", "<?php echo htmlspecialchars($_SERVER['SERVER_NAME'].':8082/'.$_GET['siteName']); ?>");
+                h2[0].setAttribute("src", 'http://' + window.location.hostname + ':8082/' + siteName);
                 h2.load(function(){
                     h2[0].parentNode.innerHTML = "Test complete";
                     setTimeout(function() {
-                        h2push[0].setAttribute("src", "<?php echo htmlspecialchars($_SERVER['SERVER_NAME'].':8083/'.$_GET['siteName']); ?>");
+                        h2push[0].setAttribute("src", 'http://' + window.location.hostname + ':8083/' + siteName);
                         h2push.load(function(){
                             h2push[0].parentNode.innerHTML = "Test complete";
                             console.log("Loading finished");
