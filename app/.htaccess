@@ -1,3 +1,6 @@
+Require all granted
+Options +Indexes
+
 <Files "downloadSite.php">
     php_value output_buffering Off
     php_flag "output_buffering" Off
