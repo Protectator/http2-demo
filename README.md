@@ -29,12 +29,7 @@ mkdir -p /srv/http2-demo/
 cd /srv/http2-demo/
 ```
 
-* In it, create 3 directories named `1`, `2`, and `2push`.
-```bash
-mkdir 1
-mkdir 2
-mkdir 2push
-```
+* Run the script `setup`. It will create required folders `1`, `2` and `2push` that will contain downloaded page's files.
 
 * Give write permissions to the group `www-data` (or the one Apache is running as) for folders `app`, `1`, `2` and `2push`, and execute for folder `app`.
 ```bash
@@ -46,11 +41,14 @@ sudo chmod -R g+x app
 
 ### Apache Configuration
 
+First, activate `http2_mod` using `sudo a2enmod http2`.
+
 Configure 4 virtual hosts on Apache :
 
 * The first will be for the main application. Its root is the folder `app` of the project, in this case `/srv/http2-demo/app/`.
 
 ```
+Listen 443
 <VirtualHost *:443>
   DocumentRoot /srv/http2-demo/app/
   
@@ -70,15 +68,13 @@ Configure 4 virtual hosts on Apache :
 Folder `/srv/http2-demo/1` will contain pages served over HTTP 1.1 on port `:8081`
 
 ```
+Listen 8081
 <VirtualHost *:8081>
   DocumentRoot /srv/http2-demo/1/
   
   <Directory "/srv/http2-demo/1/">
     Require all granted
     Options +Indexes
-    Header unset ETag
-    Header set Cache-Control "max-age=0, no-cache, no-store, must-revalidate"
-    Header set Pragma "no-cache"
   </Directory>
 </VirtualHost>
 ```
@@ -86,18 +82,13 @@ Folder `/srv/http2-demo/1` will contain pages served over HTTP 1.1 on port `:808
 Folder `/srv/http2-demo/2` will contain pages served over HTTP/2 on port `:8082`. Use with SSL.
 
 ```
+Listen 8082
 <VirtualHost *:8082>
   DocumentRoot /srv/http2-demo/2/
-  
-  Protocols h2 http/1.1
-  H2Push Off
   
   <Directory "/srv/http2-demo/2/">
     Require all granted
     Options +Indexes
-    Header unset ETag
-    Header set Cache-Control "max-age=0, no-cache, no-store, must-revalidate"
-    Header set Pragma "no-cache"
   </Directory>
   
   SSLEngine On
@@ -109,19 +100,13 @@ Folder `/srv/http2-demo/2` will contain pages served over HTTP/2 on port `:8082`
 Folder `/srv/http2-demo/2push` will contain pages served over HTTP/2+PUSH enabled on port `:8083`. Use with SSL.
 
 ```
+Listen 8083
 <VirtualHost *:8083>
   DocumentRoot /srv/http2-demo/2push/
-  
-  Protocols h2 http/1.1
-  H2Push on
-  H2PushDiarySize 0 # We don't want the server to cache pushed resources if TCP connection is maintained through tests
   
   <Directory "/srv/http2-demo/2push/">
     Require all granted
     Options +Indexes
-    AllowOverride All
-    Header set Cache-Control "max-age=0, no-cache, no-store, must-revalidate"
-    Header set Pragma "no-cache"
   </Directory>
   
   SSLEngine On
@@ -130,7 +115,7 @@ Folder `/srv/http2-demo/2push` will contain pages served over HTTP/2+PUSH enable
 </VirtualHost>
 ```
 
-Then of course, reload Apache configuration : `sudo service apache2 reload`.
+Then, activate the 4 configurations using `a2ensite` and reload Apache configuration : `sudo service apache2 reload`.
 
 ### Enabling set delay from web interface
 

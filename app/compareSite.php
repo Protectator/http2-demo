@@ -55,9 +55,9 @@
                     <thead>
                     <tr>
                         <th>Protocol</th>
-                        <th><a href="<?php echo htmlspecialchars('https://fraudit.tic.heia-fr.ch:8081/'.$_GET['siteName']); ?>" target="_blank">HTTP 1.1</a></th>
-                        <th><a href="<?php echo htmlspecialchars('https://fraudit.tic.heia-fr.ch:8082/'.$_GET['siteName']); ?>" target="_blank">HTTP 2</a></th>
-                        <th><a href="<?php echo htmlspecialchars('https://fraudit.tic.heia-fr.ch:8083/'.$_GET['siteName']); ?>" target="_blank">HTTP 2 + PUSH</a></th>
+                        <th><a id="link-h1" target="_blank">HTTP 1.1</a></th>
+                        <th><a id="link-h2" target="_blank">HTTP 2</a></th>
+                        <th><a id="link-h2push" target="_blank">HTTP 2 + PUSH</a></th>
                     </tr>
                     </thead><tbody>
                     <tr>
@@ -114,9 +114,17 @@
 <div class="after-footer"></div>
 </body>
 <script>
-    var origins = ["https://fraudit.tic.heia-fr.ch:8081",
-        "https://fraudit.tic.heia-fr.ch:8082",
-        "https://fraudit.tic.heia-fr.ch:8083"];
+
+    var search = window.location.search;
+    var n = search.lastIndexOf('siteName=');
+    var siteName = search.substring(n + 9);
+    $('#link-h1').setAttribute("href", window.location.hostname + ':8081/' + siteName);
+    $('#link-h2').setAttribute("href", window.location.hostname + ':8082/' + siteName);
+    $('#link-h2push').setAttribute("href", window.location.hostname + ':8083/' + siteName);
+
+    var origins = [window.location.hostname + ':8081',
+        window.location.hostname + ':8082',
+        window.location.hostname + ':8083'];
 
     total = [];
     total['avg'] = [];
@@ -269,15 +277,15 @@
         var h1 = $('#h1');
         var h2 = $('#h2');
         var h2push = $('#h2push');
-        h1[0].setAttribute("src", "<?php echo htmlspecialchars('https://fraudit.tic.heia-fr.ch:8081/'.$_GET['siteName']); ?>");
+        h1[0].setAttribute("src", "<?php echo htmlspecialchars($_SERVER['SERVER_NAME'].':8081/'.$_GET['siteName']); ?>");
         h1.load(function(){
             h1[0].parentNode.innerHTML = "Test complete";
             setTimeout(function(){
-                h2[0].setAttribute("src", "<?php echo htmlspecialchars('https://fraudit.tic.heia-fr.ch:8082/'.$_GET['siteName']); ?>");
+                h2[0].setAttribute("src", "<?php echo htmlspecialchars($_SERVER['SERVER_NAME'].':8082/'.$_GET['siteName']); ?>");
                 h2.load(function(){
                     h2[0].parentNode.innerHTML = "Test complete";
                     setTimeout(function() {
-                        h2push[0].setAttribute("src", "<?php echo htmlspecialchars('https://fraudit.tic.heia-fr.ch:8083/'.$_GET['siteName']); ?>");
+                        h2push[0].setAttribute("src", "<?php echo htmlspecialchars($_SERVER['SERVER_NAME'].':8083/'.$_GET['siteName']); ?>");
                         h2push.load(function(){
                             h2push[0].parentNode.innerHTML = "Test complete";
                             console.log("Loading finished");
