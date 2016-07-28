@@ -122,9 +122,9 @@
     $('#link-h2')[0].setAttribute("href", 'http://' + window.location.hostname + ':8082/' + siteName);
     $('#link-h2push')[0].setAttribute("href", 'http://' + window.location.hostname + ':8083/' + siteName);
 
-    var origins = [window.location.hostname + ':8081',
-        window.location.hostname + ':8082',
-        window.location.hostname + ':8083'];
+    var origins = ['http://' + window.location.hostname + ':8081',
+        'http://' + window.location.hostname + ':8082',
+        'http://' + window.location.hostname + ':8083'];
 
     total = [];
     total['avg'] = [];
