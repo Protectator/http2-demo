@@ -118,9 +118,9 @@
     var search = window.location.search;
     var n = search.lastIndexOf('siteName=');
     var siteName = search.substring(n + 9);
-    $('#link-h1')[0].setAttribute("href", window.location.hostname + ':8081/' + siteName);
-    $('#link-h2')[0].setAttribute("href", window.location.hostname + ':8082/' + siteName);
-    $('#link-h2push')[0].setAttribute("href", window.location.hostname + ':8083/' + siteName);
+    $('#link-h1')[0].setAttribute("href", 'http://' + window.location.hostname + ':8081/' + siteName);
+    $('#link-h2')[0].setAttribute("href", 'http://' + window.location.hostname + ':8082/' + siteName);
+    $('#link-h2push')[0].setAttribute("href", 'http://' + window.location.hostname + ':8083/' + siteName);
 
     var origins = [window.location.hostname + ':8081',
         window.location.hostname + ':8082',
