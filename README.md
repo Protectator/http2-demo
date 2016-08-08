@@ -56,10 +56,6 @@ Listen 443
     Require all granted
     Options +Indexes
   </Directory>
-  
-  SSLEngine On
-  SSLCertificateFile      /etc/ssl/certs/your-cert.pem # Change path to your cert file
-  SSLCertificateKeyFile /etc/ssl/private/your-cert.key # Change path to your cert file
 </VirtualHost>
 ```
 
@@ -79,7 +75,7 @@ Listen 8081
 </VirtualHost>
 ```
 
-Folder `/srv/http2-demo/2` will contain pages served over HTTP/2 on port `:8082`. Use with SSL.
+Folder `/srv/http2-demo/2` will contain pages served over HTTP/2 on port `:8082`.
 
 ```
 Listen 8082
@@ -90,14 +86,10 @@ Listen 8082
     Require all granted
     Options +Indexes
   </Directory>
-  
-  SSLEngine On
-  SSLCertificateFile      /etc/ssl/certs/your-cert.pem # Change path to your cert file
-  SSLCertificateKeyFile /etc/ssl/private/your-cert.key # Change path to your cert file
 </VirtualHost>
 ```
 
-Folder `/srv/http2-demo/2push` will contain pages served over HTTP/2+PUSH enabled on port `:8083`. Use with SSL.
+Folder `/srv/http2-demo/2push` will contain pages served over HTTP/2+PUSH enabled on port `:8083`.
 
 ```
 Listen 8083
@@ -108,10 +100,6 @@ Listen 8083
     Require all granted
     Options +Indexes
   </Directory>
-  
-  SSLEngine On
-  SSLCertificateFile      /etc/ssl/certs/your-cert.pem # Change path to your cert file
-  SSLCertificateKeyFile /etc/ssl/private/your-cert.key # Change path to your cert file
 </VirtualHost>
 ```
 
